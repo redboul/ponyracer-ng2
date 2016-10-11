@@ -1,7 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 
 import { RaceService } from './race.service';
-import { Race } from './models/race.model';
+import { RaceModel } from './models/race.model';
 
 describe('RaceService Service', () => {
 
@@ -15,8 +15,11 @@ describe('RaceService Service', () => {
 
   it('should list races', async(() => {
     const observable = service.list();
-    observable.subscribe((races: Array<Race>) => {
-      expect(races.length).toBe(5, 'The service should return five races in an Observable for the `list()` method');
+    observable.subscribe((races: Array<RaceModel>) => {
+      expect(races.length).toBe(2, 'The service should return two races');
+      const paris = races[0];
+      expect(paris.name).toBe('Paris');
+      expect(paris.ponies.length).toBe(5, 'The races should include the ponies');
     });
   }));
 

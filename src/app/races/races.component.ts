@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { Race } from '../models/race.model';
+import { RaceModel } from '../models/race.model';
 import {RaceService } from '../race.service';
 
 @Component({
@@ -10,7 +10,7 @@ import {RaceService } from '../race.service';
 @Injectable()
 export class RacesComponent implements OnInit {
 
-  races: Array<Race>;
+  races: Array<RaceModel>;
   
   constructor( private raceService: RaceService) { }
 
