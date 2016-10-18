@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppModule } from '../app.module';
 import { MenuComponent } from './menu.component';
@@ -6,7 +7,7 @@ import { MenuComponent } from './menu.component';
 describe('Component: Menu', () => {
 
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [AppModule]
+    imports: [AppModule, RouterTestingModule]
   }));
 
   it('should have a `navbarCollapsed` field', () => {
@@ -52,5 +53,15 @@ describe('Component: Menu', () => {
     const navbar = element.querySelector('#navbar');
     expect(navbar.classList).not
       .toContain('collapse', 'The element with the id `#navbar` should have not the class `collapse` after a click');
+  });
+
+  it('should use routerLink to navigate', () => {
+    const fixture = TestBed.createComponent(MenuComponent);
+    const element = fixture.nativeElement;
+    
+    fixture.detectChanges();
+
+    const links = element.querySelectorAll('a[routerLink]');
+    expect(links.length).toBe(3, 'You should have two routerLink: one to the races, one to the home');
   });
 });

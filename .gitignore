@@ -31,5 +31,5 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
-results/protractor-results.json
 .vscode
+results/*

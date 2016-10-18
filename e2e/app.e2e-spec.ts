@@ -9,6 +9,6 @@ describe('ponyracer App', function() {
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Ponyracer');
+    expect(page.getParagraphText()).toEqual('Ponyracer Always a pleasure to bet on ponies');
   });
 });

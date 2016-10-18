@@ -1,0 +1,18 @@
+<form (ngSubmit)="register()" [formGroup]="userForm">
+  <div class="form-group" [class.has-error]="userForm.get('login').invalid && userForm.get('login').dirty">
+    <label for="login" id="login-label">Login</label>
+    <input id="login" type="text" class="form-control" ngModel required formControlName="login">
+    <span *ngIf="userForm.get('login').invalid && userForm.get('login').dirty" id="warningLogin" class="help-block">Login is required</span>
+  </div>
+  <div class="form-group" [class.has-error]="userForm.get('password').invalid && userForm.get('password').dirty">
+    <label for="password" id="password-label">Password</label>
+    <input id="password" type="password" class="form-control" ngModel required formControlName="password">
+    <span *ngIf="userForm.get('password').invalid && userForm.get('password').dirty" id="warningPassword" class="help-block">Password is required</span>
+  </div>
+  <div class="form-group" [class.has-error]="userForm.get('birthYear').invalid && userForm.get('birthYear').dirty">
+    <label for="birthYear" id="birthYear-label">Birth year</label>
+    <input id="birthYear" type="number" class="form-control" ngModel required formControlName="birthYear">
+    <span *ngIf="userForm.get('birthYear').invalid && userForm.get('birthYear').dirty" id="warningBirthYear" class="help-block">Birth year is required</span>
+  </div>
+  <button type="submit" [disabled]="!userForm.valid" class="btn btn-default">Let's go!</button>
+</form>
