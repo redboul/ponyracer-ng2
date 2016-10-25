@@ -1,0 +1,15 @@
+<h1>Log in</h1>
+<form (ngSubmit)="uthenticate()" #loginForm="ngForm">
+  <div class="form-group">
+    <label for="login" id="login-label">Login</label>
+    <input id="login" type="text" class="form-control" name="login" [(ngModel)]="credentials.login" required>
+  </div>
+  <div class="form-group">
+    <label for="password" id="password-label">Password</label>
+    <input type="password" name="password" class="form-control" value="" [(ngModel)]="credentials.password" required>
+  </div>
+  <button  [disabled]="!loginForm.valid" type="submit" class="btn btn-default">Login</button>
+</form>
+<div class="alert alert-danger">
+  Nope, try again
+</div>

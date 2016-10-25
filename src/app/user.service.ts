@@ -11,9 +11,14 @@ export class UserService {
 
   register(login: string, password: string, birthYear: number): Observable<any> {
     return this.http
-      .post('http://ponyracer.ninja-squad.com/api/users', {login, password, birthYear}).map(response => {
-        return response.json()
-      });
+      .post('http://ponyracer.ninja-squad.com/api/users', {login, password, birthYear})
+      .map(response => response.json());
+  }
+
+  authenticate(credentials: {login: string, password: string}): Observable<any> {
+    return this.http
+      .post('http://ponyracer.ninja-squad.com/api/users/authentication', credentials)
+      .map(response => response.json());
   }
 
 }
