@@ -10,6 +10,7 @@ import { MenuComponent } from './menu/menu.component';
 import { RacesComponent } from './races/races.component';
 
 import { RaceService } from './race.service';
+import { UserService } from './user.service';
 import { RaceComponent } from './race/race.component';
 import { PonyComponent } from './pony/pony.component';
 import { FromNowPipe } from './from-now.pipe';
@@ -36,7 +37,10 @@ import { RegisterComponent } from './register/register.component';
     HttpModule,
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [RaceService],
+  providers: [
+    RaceService,
+    UserService
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
