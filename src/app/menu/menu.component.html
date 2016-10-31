@@ -17,6 +17,15 @@
         <li>
           <a href="/register" routerLink="/register">Register</a>
         </li>
+       
+      </ul>
+      <ul *ngIf="user" class="nav navbar-nav navbar-right">
+        <li>
+          <a class="nav-item nav-link float-md-right">
+            {{ user.login }}
+            <span class="fa fa-star"></span>{{ user.money }}
+          </a>
+        </li>
       </ul>
     </div>
   </div>

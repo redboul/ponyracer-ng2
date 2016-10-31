@@ -1,21 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
+
+import { Subscription } from 'rxjs/Subscription';
+
+import { UserService } from '../user.service';
+import { UserModel } from '../models/user.model';
 
 @Component({
   selector: 'pr-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit {
+@Injectable()
+export class MenuComponent implements OnInit, OnDestroy {
 
-  public navbarCollapsed: boolean = true;
+  navbarCollapsed: boolean = true;
+  user: UserModel;
+  userEventsSubscription: Subscription;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   toggleNavbar() {
     this.navbarCollapsed = !this.navbarCollapsed;
   }
 
   ngOnInit() {
+    this.userEventsSubscription = this.userService.userEvents.subscribe(user => this.user = user);
   }
 
+  ngOnDestroy() {
+    if (this.userEventsSubscription) {
+      this.userEventsSubscription.unsubscribe();
+    }
+  }
 }
