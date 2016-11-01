@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -10,7 +10,7 @@ import { UserModel } from './models/user.model';
 @Injectable()
 export class UserService {
 
-  userEvents: Subject<UserModel> = new Subject<UserModel>();
+  userEvents: BehaviorSubject<UserModel> = new BehaviorSubject<UserModel>(undefined);
 
   constructor(private http: Http) { }
 
@@ -23,7 +23,7 @@ export class UserService {
   authenticate(credentials: {login: string, password: string}): Observable<UserModel> {
     return this.http
           .post('http://ponyracer.ninja-squad.com/api/users/authentication', credentials)
-          .map(response => response.json()).do(this.userEvents);
+          .map(response => response.json()).do((user: UserModel) => this.userEvents.next(user));;
   }
 
 }

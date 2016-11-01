@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.30",
-    "angular-cli": "1.0.0-beta.16",
+    "angular-cli": "^1.0.0-beta.16",
     "awesome-typescript-loader": "2.2.1",
     "codelyzer": "0.0.28",
     "jasmine-core": "2.4.1",
