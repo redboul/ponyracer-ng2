@@ -61,13 +61,39 @@ describe('User Service', () => {
       connection.mockRespond(response);
     });
 
-    // spy on userEvents
-    spyOn(userService.userEvents, 'next');
+    // spy on the store method
+    spyOn(userService, 'storeLoggedInUser');
 
-    const credentials = { login: 'cedric', password: 'hello' };
-    userService.authenticate(credentials).subscribe(res => {
-      expect(res.id).toBe(1, 'You should transform the Response into a user using the `json()` method.');
-      expect(userService.userEvents.next).toHaveBeenCalledWith(res);
-    });
+    const credentials = {login: 'cedric', password: 'hello'};
+    userService.authenticate(credentials)
+      .subscribe(() => expect(userService.storeLoggedInUser).toHaveBeenCalledWith(user));
   }));
+
+  it('should store the logged in user', () => {
+    spyOn(userService.userEvents, 'next');
+    spyOn(window.localStorage, 'setItem');
+
+    userService.storeLoggedInUser(user);
+
+    expect(userService.userEvents.next).toHaveBeenCalledWith(user);
+    expect(window.localStorage.setItem).toHaveBeenCalledWith('rememberMe', JSON.stringify(user));
+  });
+
+  it('should retrieve no user if none stored', () => {
+    spyOn(userService.userEvents, 'next');
+    spyOn(window.localStorage, 'getItem').and.returnValue(JSON.stringify(user));
+
+    userService.retrieveUser();
+
+    expect(userService.userEvents.next).toHaveBeenCalledWith(user);
+  });
+
+  it('should retrieve no user if none stored', () => {
+    spyOn(userService.userEvents, 'next');
+    spyOn(window.localStorage, 'getItem');
+
+    userService.retrieveUser();
+
+    expect(userService.userEvents.next).not.toHaveBeenCalled();
+  });
 });
