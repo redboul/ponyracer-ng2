@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
 
+import { Router } from '@angular/router';
+
 import { Subscription } from 'rxjs/Subscription';
 
 import { UserService } from '../user.service';
@@ -17,10 +19,16 @@ export class MenuComponent implements OnInit, OnDestroy {
   user: UserModel;
   userEventsSubscription: Subscription;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   toggleNavbar() {
     this.navbarCollapsed = !this.navbarCollapsed;
+  }
+
+  logout(event) {
+    this.userService.logout();
+    event.preventDefault();
+    this.router.navigate(['/']);
   }
 
   ngOnInit() {

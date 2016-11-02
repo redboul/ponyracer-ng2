@@ -61,12 +61,14 @@ describe('User Service', () => {
       connection.mockRespond(response);
     });
 
-    // spy on the store method
-    spyOn(userService, 'storeLoggedInUser');
+    // spy on userEvents
+    spyOn(userService.userEvents, 'next');
 
     const credentials = {login: 'cedric', password: 'hello'};
-    userService.authenticate(credentials)
-      .subscribe(() => expect(userService.storeLoggedInUser).toHaveBeenCalledWith(user));
+    userService.authenticate(credentials).subscribe(res => {
+      expect(res.id).toBe(1, 'You should transform the Response into a user using the `json()` method.');
+      expect(userService.userEvents.next).toHaveBeenCalledWith(res);
+    });
   }));
 
   it('should store the logged in user', () => {
@@ -88,12 +90,13 @@ describe('User Service', () => {
     expect(userService.userEvents.next).toHaveBeenCalledWith(user);
   });
 
-  it('should retrieve no user if none stored', () => {
+  it('should logout the user', () => {
     spyOn(userService.userEvents, 'next');
-    spyOn(window.localStorage, 'getItem');
+    spyOn(window.localStorage, 'removeItem');
 
-    userService.retrieveUser();
+    userService.logout();
 
-    expect(userService.userEvents.next).not.toHaveBeenCalled();
+    expect(userService.userEvents.next).toHaveBeenCalledWith(null);
+    expect(window.localStorage.removeItem).toHaveBeenCalledWith('rememberMe');
   });
 });
