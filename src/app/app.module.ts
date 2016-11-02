@@ -11,6 +11,7 @@ import { RacesComponent } from './races/races.component';
 
 import { RaceService } from './race.service';
 import { UserService } from './user.service';
+import { HttpService } from './http.service';
 import { RaceComponent } from './race/race.component';
 import { PonyComponent } from './pony/pony.component';
 import { FromNowPipe } from './from-now.pipe';
@@ -41,7 +42,8 @@ import { LoginComponent } from './login/login.component';
   ],
   providers: [
     RaceService,
-    UserService
+    UserService,
+    HttpService
     ],
   bootstrap: [AppComponent]
 })

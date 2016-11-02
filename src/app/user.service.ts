@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
+
 import { UserModel } from './models/user.model';
+import { HttpService } from './http.service';
 
 @Injectable()
 export class UserService {
@@ -14,20 +15,18 @@ export class UserService {
   userEvents: BehaviorSubject<UserModel> = new BehaviorSubject<UserModel>(undefined);
   localStorage = window.localStorage;
 
-  constructor(private http: Http) {
+  constructor(private httpService: HttpService) {
     this.retrieveUser();
   }
 
   register(login: string, password: string, birthYear: number): Observable<any> {
-    return this.http
-      .post('http://ponyracer.ninja-squad.com/api/users', {login, password, birthYear})
-      .map(response => response.json());
+    return this.httpService
+      .post('/api/users', {login, password, birthYear});
   }
 
   authenticate(credentials: {login: string, password: string}): Observable<UserModel> {
-    return this.http
-          .post('http://ponyracer.ninja-squad.com/api/users/authentication', credentials)
-          .map(response => response.json())
+    return this.httpService
+          .post('/api/users/authentication', credentials)
           .do((user: UserModel) => this.storeLoggedInUser(user));
   }
 

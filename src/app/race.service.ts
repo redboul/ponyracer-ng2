@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { RaceModel } from './models/race.model';
-import { Http } from '@angular/http';
 
 import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
+
+import { HttpService } from './http.service';
 
 @Injectable()
 export class RaceService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpService) { }
 
-  list(): Observable<Array<RaceModel>> {
-
-    return this.http.get('http://ponyracer.ninja-squad.com/api/races?status=PENDING').map(response => {
-      return <Array<RaceModel>>response.json();
-    });
+  list(): Observable<any> {
+    return this.http.get('/api/races?status=PENDING');
   }
 
 }

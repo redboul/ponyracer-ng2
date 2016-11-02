@@ -1,1 +1,1 @@
-{"pack":"10","id":17,"title":"Logout","specs":[{"name":"src/app/menu/menu.component.spec.ts","hash":"6bb2b8179dd8ed4e03b3bd40bb1523f387897a9d"},{"name":"src/app/user.service.spec.ts","hash":"62da427678806dcae71491e1ddb9f3d48f4bf2ed"}]}
+{"pack":"10","id":18,"title":"Http with authentication","specs":[{"name":"src/app/http.service.spec.ts","hash":"365429ef354f82405e2eb27fa0928d411d478a45"},{"name":"src/app/race.service.spec.ts","hash":"5382cd455621ae441060eff7cc7a1c4109af3f7d"},{"name":"src/app/user.service.spec.ts","hash":"078e31090580be9a2b24d56a669cca9049d664d8"}]}

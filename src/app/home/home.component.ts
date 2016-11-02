@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./home.component.css']
 })
 @Injectable()
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   userEventsSubscription: Subscription;
   user: UserModel;

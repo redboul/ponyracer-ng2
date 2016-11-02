@@ -1,50 +1,33 @@
 import { async, TestBed } from '@angular/core/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import { RaceService } from './race.service';
-import { RaceModel } from './models/race.model';
+import { HttpService } from './http.service';
 
 describe('RaceService Service', () => {
 
   let raceService: RaceService;
-  let mockBackend: MockBackend;
+  const httpService = jasmine.createSpyObj('HttpService', ['get']);
 
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
-      MockBackend,
-      BaseRequestOptions,
-      {
-        provide: Http,
-        useFactory: (backend, defaultOptions) => new Http(backend, defaultOptions),
-        deps: [MockBackend, BaseRequestOptions]
-      },
+      { provide: HttpService, useValue: httpService },
       RaceService
     ]
   }));
 
-  beforeEach(() => {
-    raceService = TestBed.get(RaceService);
-    mockBackend = TestBed.get(MockBackend);
-  });
+  beforeEach(() => raceService = TestBed.get(RaceService));
 
   it('should return an Observable of 3 races', async(() => {
-      // fake response
-      const hardcodedRaces = [{ name: 'Paris' }, { name: 'Tokyo' }, { name: 'Lyon' }];
-      const response = new Response(new ResponseOptions({ body: hardcodedRaces }));
-      // return the response if we have a connection to the MockBackend
-      mockBackend.connections.subscribe((connection: MockConnection) => {
-        expect(connection.request.url)
-          .toBe('http://ponyracer.ninja-squad.com/api/races?status=PENDING', 'The URL requested is not correct');
-        expect(connection.request.method).toBe(RequestMethod.Get);
-        connection.mockRespond(response);
-      });
+    // fake response
+    const hardcodedRaces = [{ name: 'Paris' }, { name: 'Tokyo' }, { name: 'Lyon' }];
+    httpService.get.and.returnValue(Observable.of(hardcodedRaces));
 
-      raceService.list().subscribe((races: Array<RaceModel>) => {
-        expect(races.length).toBe(3, 'The `list` method should return an array of RaceModel wrapped in an Observable');
-      });
-    }
-  ));
+    raceService.list().subscribe(races => {
+      expect(races.length).toBe(3);
+      expect(httpService.get).toHaveBeenCalledWith('/api/races?status=PENDING');
+    });
+  }));
 
 });

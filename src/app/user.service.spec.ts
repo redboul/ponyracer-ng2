@@ -1,13 +1,13 @@
 import { async, TestBed } from '@angular/core/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
+import { Observable } from 'rxjs/Observable';
 
 import { UserService } from './user.service';
+import { HttpService } from './http.service';
 
 describe('User Service', () => {
 
   let userService: UserService;
-  let mockBackend: MockBackend;
+  const httpService = jasmine.createSpyObj('HttpService', ['post']);
 
   const user = {
     id: 1,
@@ -19,56 +19,39 @@ describe('User Service', () => {
 
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
-      MockBackend,
-      BaseRequestOptions,
-      {
-        provide: Http,
-        useFactory: (backend, defaultOptions) => new Http(backend, defaultOptions),
-        deps: [MockBackend, BaseRequestOptions]
-      },
+      { provide: HttpService, useValue: httpService },
       UserService
     ]
   }));
 
-  beforeEach(() => {
-    userService = TestBed.get(UserService);
-    mockBackend = TestBed.get(MockBackend);
-  });
+  beforeEach(() => userService = TestBed.get(UserService));
 
   it('should register a user', async(() => {
     // fake response
-    const response = new Response(new ResponseOptions({ body: user }));
-    // return the response if we have a connection to the MockBackend
-    mockBackend.connections.subscribe((connection: MockConnection) => {
-      expect(connection.request.url).toBe('http://ponyracer.ninja-squad.com/api/users');
-      expect(connection.request.method).toBe(RequestMethod.Post);
-      connection.mockRespond(response);
-    });
+    httpService.post.and.returnValue(Observable.of(user));
 
     userService.register(user.login, 'password', 1986).subscribe(res => {
       expect(res.id).toBe(1, 'You should transform the Response into a user using the `json()` method.');
+      expect(httpService.post).toHaveBeenCalledWith('/api/users', {
+        login: user.login,
+        password: 'password',
+        birthYear: 1986
+      });
     });
   }));
 
   it('should authenticate a user', async(() => {
     // fake response
-    const response = new Response(new ResponseOptions({ body: user }));
-    // return the response if we have a connection to the MockBackend
-    mockBackend.connections.subscribe((connection: MockConnection) => {
-      expect(connection.request.url)
-        .toBe('http://ponyracer.ninja-squad.com/api/users/authentication');
-      expect(connection.request.method).toBe(RequestMethod.Post);
-      connection.mockRespond(response);
-    });
+    httpService.post.and.returnValue(Observable.of(user));
+    // spy on the store method
+    spyOn(userService, 'storeLoggedInUser');
 
-    // spy on userEvents
-    spyOn(userService.userEvents, 'next');
-
-    const credentials = {login: 'cedric', password: 'hello'};
-    userService.authenticate(credentials).subscribe(res => {
-      expect(res.id).toBe(1, 'You should transform the Response into a user using the `json()` method.');
-      expect(userService.userEvents.next).toHaveBeenCalledWith(res);
-    });
+    const credentials = { login: 'cedric', password: 'hello' };
+    userService.authenticate(credentials)
+      .subscribe(() => {
+        expect(userService.storeLoggedInUser).toHaveBeenCalledWith(user);
+        expect(httpService.post).toHaveBeenCalledWith('/api/users/authentication', credentials);
+      });
   }));
 
   it('should store the logged in user', () => {
@@ -88,6 +71,15 @@ describe('User Service', () => {
     userService.retrieveUser();
 
     expect(userService.userEvents.next).toHaveBeenCalledWith(user);
+  });
+
+  it('should retrieve no user if none stored', () => {
+    spyOn(userService.userEvents, 'next');
+    spyOn(window.localStorage, 'getItem');
+
+    userService.retrieveUser();
+
+    expect(userService.userEvents.next).not.toHaveBeenCalled();
   });
 
   it('should logout the user', () => {
