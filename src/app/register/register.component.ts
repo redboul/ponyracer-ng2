@@ -12,14 +12,6 @@ import { UserService } from '../user.service';
 })
 export class RegisterComponent implements OnInit {
 
-  static passwordMatch(group: FormGroup) {
-    return (group.get('password').value !== group.get('confirmPassword').value) ? { matchingError: true }: null;
-  }
-
-  static validYear(control: FormControl) {
-    return (control.value < 1900 || control.value >= new Date().getFullYear() + 1) ? { invalidYear: true } : null;
-  }
-
   loginCtrl: FormControl;
   passwordCtrl: FormControl;
   confirmPasswordCtrl: FormControl;
@@ -28,7 +20,15 @@ export class RegisterComponent implements OnInit {
   passwordForm: FormGroup;
   registrationFailed: boolean = false;
 
-  constructor(fb: FormBuilder, private userService: UserService, private router: Router) { 
+  static passwordMatch(group: FormGroup) {
+    return (group.get('password').value !== group.get('confirmPassword').value) ? { matchingError: true } : null;
+  }
+
+  static validYear(control: FormControl) {
+    return (control.value < 1900 || control.value >= new Date().getFullYear() + 1) ? { invalidYear: true } : null;
+  }
+
+  constructor(fb: FormBuilder, private userService: UserService, private router: Router) {
     this.loginCtrl = fb.control('', Validators.compose([Validators.required, Validators.minLength(3)]));
     this.passwordCtrl = fb.control('', Validators.required);
     this.confirmPasswordCtrl = fb.control('', Validators.required);
@@ -54,5 +54,4 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

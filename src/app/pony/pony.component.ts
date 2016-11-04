@@ -17,7 +17,7 @@ export class PonyComponent implements OnInit {
   }
 
   getPonyImageUrl(): string {
-    return `assets/images/pony-${this.ponyModel.color.toLowerCase()}.gif`
+    return `assets/images/pony-${this.ponyModel.color.toLowerCase()}.gif`;
   }
 
   clicked() {

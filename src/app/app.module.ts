@@ -20,6 +20,7 @@ import { ROUTES } from './app.routes';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { BetComponent } from './bet/bet.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { LoginComponent } from './login/login.component';
     FromNowPipe,
     HomeComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    BetComponent
   ],
   imports: [
     BrowserModule,

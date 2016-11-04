@@ -1,6 +1,6 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { RaceModel } from '../models/race.model';
-import {RaceService } from '../race.service';
+import { RaceService } from '../race.service';
 
 @Component({
   selector: 'pr-races',
@@ -11,7 +11,7 @@ import {RaceService } from '../race.service';
 export class RacesComponent implements OnInit {
 
   races: Array<RaceModel>;
-  
+
   constructor( private raceService: RaceService) { }
 
   ngOnInit() {

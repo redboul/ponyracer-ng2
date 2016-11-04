@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -13,7 +14,7 @@ describe('Component: Races', () => {
   const service = jasmine.createSpyObj('RaceService', ['list']);
 
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [AppModule],
+    imports: [AppModule, RouterTestingModule],
     providers: [{ provide: RaceService, useValue: service }]
   }));
 
@@ -42,5 +43,18 @@ describe('Component: Races', () => {
     const debugElement = fixture.debugElement;
     const raceNames = debugElement.queryAll(By.directive(RaceComponent));
     expect(raceNames.length).toBe(4, 'You should have four `RaceComponent` displayed, use the `slice` pipe');
+  });
+
+  it('should display a link to bet on a race', () => {
+    const fixture = TestBed.createComponent(RacesComponent);
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement;
+    const raceNames = element.querySelectorAll('a');
+    expect(raceNames.length).toBe(4, 'You must have a link to go to the bet page for each race');
+    expect(raceNames[0].textContent).toContain('Bet on Lyon');
+    expect(raceNames[1].textContent).toContain('Bet on Los Angeles');
+    expect(raceNames[2].textContent).toContain('Bet on Sydney');
+    expect(raceNames[3].textContent).toContain('Bet on Tokyo');
   });
 });

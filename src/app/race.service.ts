@@ -12,8 +12,16 @@ export class RaceService {
 
   constructor(private http: HttpService) { }
 
-  list(): Observable<any> {
+  list(): Observable<Array<RaceModel>> {
     return this.http.get('/api/races?status=PENDING');
+  }
+
+  bet(raceId: number, ponyId: number): Observable<any> {
+    return this.http.post(`/api/races/${raceId}/bets`, { ponyId });
+  }
+
+  get( raceId: number ): Observable<any> {
+    return this.http.get(`/api/races/${raceId}`);
   }
 
 }
