@@ -113,4 +113,24 @@ describe('Http Service', () => {
     });
 
   }));
+
+  it('should do an authenticated DELETE request', async(() => {
+    spyOn(window.localStorage, 'getItem')
+      .and.returnValue(JSON.stringify({ token: 'secret' }));
+
+    const response = new Response(new ResponseOptions({ status: 204 }));
+    // return the response if we have a connection to the MockBackend
+    mockBackend.connections.subscribe(connection => {
+      expect(connection.request.url)
+        .toBe('http://ponyracer.ninja-squad.com/api/races/1/bets');
+      expect(connection.request.method).toBe(RequestMethod.Delete);
+      expect(connection.request.headers.get('Authorization')).toBe('Bearer secret');
+      connection.mockRespond(response);
+    });
+
+    httpService.delete('/api/races/1/bets').subscribe((res) => {
+      expect(res.status).toBe(204, 'The delete method should return the response (and not extract the JSON).');
+    });
+
+  }));
 });

@@ -20,6 +20,10 @@ export class RaceService {
     return this.http.post(`/api/races/${raceId}/bets`, { ponyId });
   }
 
+  cancelBet( raceId: number ): Observable<any> {
+    return this.http.delete(`/api/races/${raceId}/bets`);
+  }
+
   get( raceId: number ): Observable<any> {
     return this.http.get(`/api/races/${raceId}`);
   }

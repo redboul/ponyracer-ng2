@@ -24,6 +24,11 @@ export class HttpService {
     return this.http.post(`${this.baseUrl}${path}`, body, this.options).map(response => response.json());
   }
 
+  delete(path: string): Observable<any> {
+    this.addJwtTokenIfExists();
+    return this.http.delete(`${this.baseUrl}${path}`, this.options);
+  }
+
   addJwtTokenIfExists() {
     const userString = window.localStorage.getItem(UserService.REMEMBER_ME_KEY);
     if (userString) {

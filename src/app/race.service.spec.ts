@@ -8,7 +8,7 @@ import { HttpService } from './http.service';
 describe('RaceService Service', () => {
 
   let raceService: RaceService;
-  const httpService = jasmine.createSpyObj('HttpService', ['get', 'post']);
+  const httpService = jasmine.createSpyObj('HttpService', ['get', 'post', 'delete']);
 
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
@@ -51,6 +51,17 @@ describe('RaceService Service', () => {
 
     raceService.bet(raceId, ponyId).subscribe(() => {
       expect(httpService.post).toHaveBeenCalledWith('/api/races/1/bets', { ponyId });
+    });
+  }));
+
+  it('should cancel a bet on a race', async(() => {
+    // fake response
+    httpService.delete.and.returnValue(Observable.of(null));
+
+    const raceId = 1;
+
+    raceService.cancelBet(raceId).subscribe(() => {
+      expect(httpService.delete).toHaveBeenCalledWith('/api/races/1/bets');
     });
   }));
 
