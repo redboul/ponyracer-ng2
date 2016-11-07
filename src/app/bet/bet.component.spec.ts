@@ -1,6 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -184,5 +184,19 @@ describe('Component: Bet', () => {
     expect(fakeRaceService.cancelBet).toHaveBeenCalledWith(2);
     expect(component.raceModel.betPonyId).toBe(1);
     expect(component.betFailed).toBe(true);
+  });
+
+  it('should display a link to go to live', () => {
+    const fixture = TestBed.createComponent(BetComponent);
+    fixture.detectChanges();
+
+    const component = fixture.componentInstance;
+    component.raceModel = { id: 2, betPonyId: 1, name: 'Lyon', ponies: [], startInstant: '2016-02-18T08:02:00Z' };
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement;
+    const button = element.querySelector('a[href="/races/2/live"]');
+    expect(button).not.toBeNull('You should have a link to go to the live with an href `/races/id/live`');
+    expect(button.textContent).toContain('Watch live!');
   });
 });
