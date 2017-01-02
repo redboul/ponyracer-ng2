@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import * as Webstomp from 'webstomp-client';
 
 import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { RacesComponent } from './races/races.component';
 import { RaceService } from './race.service';
+import { WsService } from './ws.service';
 import { RaceComponent } from './race/race.component';
 import { PonyComponent } from './pony/pony.component';
 import { FromNowPipe } from './from-now.pipe';
@@ -44,7 +46,10 @@ import { LiveComponent } from './live/live.component';
   providers: [
     RaceService,
     UserService,
-    HttpService
+    HttpService,
+    WsService,
+    { provide: 'WebSocket', useValue: WebSocket },
+    { provide: 'Webstomp', useValue: Webstomp }
   ],
   bootstrap: [AppComponent]
 })

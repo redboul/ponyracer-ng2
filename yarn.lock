@@ -6393,6 +6393,10 @@ websocket-extensions@>=0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.1.tgz#76899499c184b6ef754377c2dbb0cd6cb55d29e7"
 
+webstomp-client@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/webstomp-client/-/webstomp-client-1.0.3.tgz#821f98527d4b30a31f93df76f8f31fbc0bac30a4"
+
 when@~3.6.x:
   version "3.6.4"
   resolved "https://registry.yarnpkg.com/when/-/when-3.6.4.tgz#473b517ec159e2b85005497a13983f095412e34e"

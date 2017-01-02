@@ -6,12 +6,12 @@ import 'rxjs/add/operator/take';
 import { RaceModel } from './models/race.model';
 import { PonyWithPositionModel } from './models/pony.model';
 import { HttpService } from './http.service';
+import { WsService } from './ws.service';
 
 @Injectable()
 export class RaceService {
 
-  constructor(private http: HttpService) {
-  }
+  constructor(private http: HttpService, private ws: WsService) {}
 
   list(): Observable<Array<RaceModel>> {
     return this.http.get('/api/races?status=PENDING');
@@ -30,37 +30,7 @@ export class RaceService {
   }
 
   live(raceId): Observable<Array<PonyWithPositionModel>> {
-    return Observable
-      .interval(1000)
-      .take(101)
-      .map(position => {
-        return [{
-          id: 1,
-          name: 'Superb Runner',
-          color: 'BLUE',
-          position
-        }, {
-          id: 2,
-          name: 'Awesome Fridge',
-          color: 'GREEN',
-          position
-        }, {
-          id: 3,
-          name: 'Great Bottle',
-          color: 'ORANGE',
-          position
-        }, {
-          id: 4,
-          name: 'Little Flower',
-          color: 'YELLOW',
-          position
-        }, {
-          id: 5,
-          name: 'Nice Rock',
-          color: 'PURPLE',
-          position
-        }];
-      });
+    return this.ws.connect(`/race/${raceId}`).map(body => body.ponies);
   }
 
 }
