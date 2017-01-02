@@ -1,4 +1,5 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
 import { RaceModel } from '../models/race.model';
 import { RaceService } from '../race.service';
 
@@ -7,12 +8,11 @@ import { RaceService } from '../race.service';
   templateUrl: './races.component.html',
   styleUrls: ['./races.component.css']
 })
-@Injectable()
 export class RacesComponent implements OnInit {
 
-  races: Array<RaceModel>;
+  races: Array<RaceModel> = [];
 
-  constructor( private raceService: RaceService) { }
+  constructor(private raceService: RaceService) {}
 
   ngOnInit() {
     this.raceService.list().subscribe(races => this.races = races);

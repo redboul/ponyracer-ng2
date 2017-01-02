@@ -9,7 +9,7 @@ import { LiveComponent } from './live.component';
 import { RaceService } from '../race.service';
 import { PonyComponent } from '../pony/pony.component';
 
-describe('Component: Live', () => {
+describe('LiveComponent', () => {
 
   const fakeRaceService = jasmine.createSpyObj('RaceService', ['get', 'live']);
   fakeRaceService.get.and.returnValue(Observable.of({
@@ -75,7 +75,7 @@ describe('Component: Live', () => {
 
     const element = fixture.nativeElement;
     const divWithPonies = element.querySelectorAll('div.pony-wrapper');
-    expect(divWithPonies.length).toBe(2, 'You should display a `div` with a class `row` for each pony');
+    expect(divWithPonies.length).toBe(2, 'You should display a `div` with a class `pony-wrapper` for each pony');
 
     const debugElement = fixture.debugElement;
     const ponyComponents = debugElement.queryAll(By.directive(PonyComponent));

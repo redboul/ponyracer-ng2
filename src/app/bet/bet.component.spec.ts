@@ -13,7 +13,7 @@ import { PonyComponent } from '../pony/pony.component';
 import { RaceModel } from '../models/race.model';
 import { PonyModel } from '../models/pony.model';
 
-describe('Component: Bet', () => {
+describe('BetComponent', () => {
   const fakeRaceService = jasmine.createSpyObj('RaceService', ['get', 'bet', 'cancelBet']);
   const race = { id: 1, name: 'Paris' };
   fakeRaceService.get.and.returnValue(Observable.of(race));

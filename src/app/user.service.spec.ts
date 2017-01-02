@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
 import { HttpService } from './http.service';
 
-describe('User Service', () => {
+describe('UserService', () => {
 
   let userService: UserService;
   const httpService = jasmine.createSpyObj('HttpService', ['post']);

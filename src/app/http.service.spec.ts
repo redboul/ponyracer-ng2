@@ -4,7 +4,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { HttpService } from './http.service';
 
-describe('Http Service', () => {
+describe('HttpService', () => {
 
   let httpService: HttpService;
   let mockBackend: MockBackend;

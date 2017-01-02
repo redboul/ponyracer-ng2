@@ -1,9 +1,8 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserService } from '../user.service';
 
-@Injectable()
 @Component({
   selector: 'pr-login',
   templateUrl: './login.component.html',
@@ -11,18 +10,25 @@ import { UserService } from '../user.service';
 })
 export class LoginComponent implements OnInit {
 
-  credentials = {login: '', password: ''};
-  authenticationFailed: boolean = false;
+  credentials = {
+    login: '',
+    password: ''
+  };
+  authenticationFailed = false;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private router: Router, private userService: UserService) {
+  }
+
+  ngOnInit() {
+  }
 
   authenticate() {
     this.authenticationFailed = false;
     this.userService.authenticate(this.credentials)
-      .subscribe(() => this.router.navigate(['/']), () => this.authenticationFailed = true);
-  }
-
-  ngOnInit() {
+      .subscribe(
+        () => this.router.navigate(['/']),
+        () => this.authenticationFailed = true
+      );
   }
 
 }

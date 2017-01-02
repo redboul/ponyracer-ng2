@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 
-describe('App: Ponyracer', () => {
+describe('AppComponent', () => {
 
   beforeEach(() => TestBed.configureTestingModule({
     imports: [AppModule, RouterTestingModule]

@@ -7,7 +7,7 @@ import { HomeComponent } from './home.component';
 import { UserModel } from '../models/user.model';
 import { UserService } from '../user.service';
 
-describe('Component: Home', () => {
+describe('HomeComponent', () => {
 
   const fakeUserService = {userEvents: new BehaviorSubject<UserModel>(undefined)} as UserService;
 

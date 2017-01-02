@@ -7,7 +7,7 @@ import { MenuComponent } from './menu.component';
 import { UserService } from '../user.service';
 import { UserModel } from '../models/user.model';
 
-describe('Component: Menu', () => {
+describe('MenuComponent', () => {
 
   const fakeUserService = {
     userEvents: new Subject<UserModel>(),

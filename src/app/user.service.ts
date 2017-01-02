@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
@@ -11,40 +10,38 @@ import { HttpService } from './http.service';
 @Injectable()
 export class UserService {
 
-  static REMEMBER_ME_KEY: string = 'rememberMe';
-  userEvents: BehaviorSubject<UserModel> = new BehaviorSubject<UserModel>(undefined);
-  localStorage = window.localStorage;
+  public userEvents = new BehaviorSubject<UserModel>(undefined);
 
-  constructor(private httpService: HttpService) {
+  constructor(private http: HttpService) {
     this.retrieveUser();
   }
 
-  register(login: string, password: string, birthYear: number): Observable<any> {
-    return this.httpService
-      .post('/api/users', {login, password, birthYear});
+  register(login, password, birthYear): Observable<UserModel> {
+    return this.http.post('/api/users', {login, password, birthYear});
   }
 
-  authenticate(credentials: {login: string, password: string}): Observable<UserModel> {
-    return this.httpService
-          .post('/api/users/authentication', credentials)
-          .do((user: UserModel) => this.storeLoggedInUser(user));
+  authenticate(credentials): Observable<UserModel> {
+    return this.http
+      .post('/api/users/authentication', credentials)
+      .do(user => this.storeLoggedInUser(user));
   }
 
-  logout() {
-    this.localStorage.removeItem(UserService.REMEMBER_ME_KEY);
-    this.userEvents.next(null);
-  }
-
-  storeLoggedInUser(user: UserModel): void {
-    this.localStorage.setItem(UserService.REMEMBER_ME_KEY, JSON.stringify(user));
+  storeLoggedInUser(user) {
+    window.localStorage.setItem('rememberMe', JSON.stringify(user));
     this.userEvents.next(user);
   }
 
-  retrieveUser(): void {
-    let user = this.localStorage.getItem(UserService.REMEMBER_ME_KEY);
-    if (user) {
-      this.userEvents.next(JSON.parse(user));
+  retrieveUser() {
+    const value = window.localStorage.getItem('rememberMe');
+    if (value) {
+      const user = JSON.parse(value);
+      this.userEvents.next(user);
     }
+  }
+
+  logout() {
+    this.userEvents.next(null);
+    window.localStorage.removeItem('rememberMe');
   }
 
 }

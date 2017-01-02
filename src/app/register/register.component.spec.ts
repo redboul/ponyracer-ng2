@@ -9,7 +9,7 @@ import { AppModule } from '../app.module';
 import { RegisterComponent } from './register.component';
 import { UserService } from '../user.service';
 
-describe('Component: Register', () => {
+describe('RegisterComponent', () => {
 
   const fakeUserService = jasmine.createSpyObj('UserService', ['register']);
   const fakeRouter = jasmine.createSpyObj('Router', ['navigate']);

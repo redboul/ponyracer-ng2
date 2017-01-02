@@ -9,7 +9,7 @@ import { RacesComponent } from './races.component';
 import { RaceComponent } from '../race/race.component';
 import { RaceService } from '../race.service';
 
-describe('Component: Races', () => {
+describe('RacesComponent', () => {
 
   const service = jasmine.createSpyObj('RaceService', ['list']);
 

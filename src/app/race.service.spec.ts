@@ -6,7 +6,7 @@ import { RaceService } from './race.service';
 import { HttpService } from './http.service';
 import { PonyWithPositionModel } from './models/pony.model';
 
-describe('RaceService Service', () => {
+describe('RaceService', () => {
 
   let raceService: RaceService;
   const httpService = jasmine.createSpyObj('HttpService', ['get', 'post', 'delete']);
@@ -78,7 +78,7 @@ describe('RaceService Service', () => {
 
     expect(positions.length).toBe(0, 'The observable should only emit after 1 second');
 
-    // emulates the 2 seconds delay
+    // emulates the 1 second delay
     tick(1000);
     expect(positions.length).toBe(5, 'The observable should have emitted after a 1 second inteval');
     let position = positions[0];

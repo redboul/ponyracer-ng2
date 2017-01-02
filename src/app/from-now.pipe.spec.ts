@@ -1,6 +1,6 @@
 import { FromNowPipe } from './from-now.pipe';
 
-describe('FromNow Pipe', () => {
+describe('FromNowPipe', () => {
 
   it('should transform the input', () => {
     // given a pipe

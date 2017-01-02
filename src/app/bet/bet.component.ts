@@ -1,39 +1,40 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { RaceModel } from '../models/race.model';
-
 import { RaceService } from '../race.service';
+import { RaceModel } from '../models/race.model';
 
 @Component({
   selector: 'pr-bet',
   templateUrl: './bet.component.html',
   styleUrls: ['./bet.component.css']
 })
-@Injectable()
 export class BetComponent implements OnInit {
 
   raceModel: RaceModel;
-  betFailed: boolean = false;
+  betFailed = false;
 
-  constructor( private route: ActivatedRoute, private raceService: RaceService) { }
-
-  betOnPony( pony: { id: number } ) {
-    if (this.isPonySelected(pony)) {
-      this.raceService.cancelBet(this.raceModel.id)
-        .subscribe(() => this.raceModel.betPonyId = null, () => this.betFailed = true);
-    } else {
-    this.raceService.bet(this.raceModel.id, pony.id)
-      .subscribe(race => this.raceModel = race, () => this.betFailed = true);
-    }
-  }
-
-  isPonySelected(pony: { id: number }): boolean {
-    return this.raceModel.betPonyId === pony.id;
+  constructor(private raceService: RaceService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.raceService.get(Number(this.route.snapshot.params['raceId'])).subscribe(race => this.raceModel = race);
+    const raceId = this.route.snapshot.params['raceId'];
+    this.raceService.get(raceId)
+      .subscribe(race => this.raceModel = race);
+  }
+
+  betOnPony(pony) {
+    if (!this.isPonySelected(pony)) {
+      this.raceService.bet(this.raceModel.id, pony.id)
+        .subscribe(race => this.raceModel = race, () => this.betFailed = true);
+    } else {
+      this.raceService.cancelBet(this.raceModel.id)
+        .subscribe(() => this.raceModel.betPonyId = null, () => this.betFailed = true);
+    }
+  }
+
+  isPonySelected(pony) {
+    return pony.id === this.raceModel.betPonyId;
   }
 
 }
